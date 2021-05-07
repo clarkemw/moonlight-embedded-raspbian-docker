@@ -1,21 +1,36 @@
-# Moonlight embedded for libreelec
-# See https://github.com/clarkemw/moonlight-embedded-launcher for installation instructions
-# See https://github.com/irtimmer/moonlight-embedded/wiki/Usage for command instructions
+# Dockerized version of the moonlight-embedded. (https://github.com/irtimmer/moonlight-embedded)
 #
 # Run syntax: 
-#	docker run -it -v moonlight-home:/home/moonlight-user \
-#	-v /var/run/dbus:/var/run/dbus --device /dev/vchiq:/dev/vchiq \
-#	moonlight [action] (options) [host]
+#	docker build --tag moonlight-embeded .
 #
 
 FROM raspbian/stretch
-COPY qemu-arm-static /usr/bin
 
-RUN echo "deb http://archive.itimmer.nl/raspbian/moonlight stretch main" >> /etc/apt/sources.list \
-	&& wget http://archive.itimmer.nl/itimmer.gpg \
-	&& apt-key add itimmer.gpg \
-	&& apt-get update \
-	&& apt-get install -y moonlight-embedded
+RUN sudo apt-get update
+
+# Install necessary packages for compiling
+RUN sudo apt-get install -y git \
+	libopus0 libexpat1 libasound2 \
+	libudev1 libavahi-client3 \ 
+	libevdev2 libenet7 \ 
+	libssl-dev libopus-dev \
+	libasound2-dev libudev-dev \
+	libavahi-client-dev libcurl4-openssl-dev \
+	libevdev-dev libexpat1-dev \
+	libpulse-dev uuid-dev libenet-dev \
+	cmake gcc g++ fakeroot debhelper
+
+# Raspbian only
+RUN sudo apt-get install -y libraspberrypi-dev
+
+# Clone the project and build.
+RUN git clone --recursive https://github.com/irtimmer/moonlight-embedded.git /opt/moonlight-embedded
+RUN mkdir /opt/moonlight-embedded/build
+WORKDIR /opt/moonlight-embedded/build
+RUN cmake ..
+RUN make
+RUN sudo make install
+RUN ldconfig
 
 # Create directory for saved data
 ENV HOME /home/moonlight-user
@@ -27,4 +42,4 @@ VOLUME $HOME
 
 EXPOSE 80
 
-ENTRYPOINT [ "/usr/bin/moonlight" ]
+ENTRYPOINT [ "/usr/local/bin/moonlight" ]
