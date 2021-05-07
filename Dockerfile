@@ -9,6 +9,7 @@
 #
 
 FROM raspbian/stretch
+COPY qemu-arm-static /usr/bin
 
 RUN echo "deb http://archive.itimmer.nl/raspbian/moonlight stretch main" >> /etc/apt/sources.list \
 	&& wget http://archive.itimmer.nl/itimmer.gpg \
