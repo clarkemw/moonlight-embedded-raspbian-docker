@@ -1,10 +1,11 @@
 # Dockerized version of the moonlight-embedded. (https://github.com/irtimmer/moonlight-embedded)
 #
 # Run syntax: 
-#	docker build --tag moonlight-embeded .
+#	docker build --tag moonlight-embedded .
 #
 
 FROM raspbian/stretch
+COPY qemu-arm-static /usr/bin
 
 RUN sudo apt-get update
 
