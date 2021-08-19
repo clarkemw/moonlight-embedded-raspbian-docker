@@ -1,11 +1,10 @@
-# Dockerized version of the moonlight-embedded. (https://github.com/irtimmer/moonlight-embedded)
+# Dockerized version of the moonlight-embedded. (https://github.com/moonlight-stream/moonlight-embedded)
 #
 # Run syntax: 
 #	docker build --tag moonlight-embedded .
 #
 
 FROM raspbian/stretch
-COPY qemu-arm-static /usr/bin
 
 RUN sudo apt-get update
 
@@ -13,19 +12,20 @@ RUN sudo apt-get update
 RUN sudo apt-get install -y git \
 	libopus0 libexpat1 libasound2 \
 	libudev1 libavahi-client3 \ 
-	libevdev2 libenet7 \ 
+	libevdev2  \ 
 	libssl-dev libopus-dev \
 	libasound2-dev libudev-dev \
 	libavahi-client-dev libcurl4-openssl-dev \
 	libevdev-dev libexpat1-dev \
-	libpulse-dev uuid-dev libenet-dev \
-	cmake gcc g++ fakeroot debhelper
+	libpulse-dev uuid-dev \
+	cmake gcc g++
 
 # Raspbian only
 RUN sudo apt-get install -y libraspberrypi-dev
 
 # Clone the project and build.
-RUN git clone --recursive https://github.com/irtimmer/moonlight-embedded.git /opt/moonlight-embedded
+RUN git clone https://github.com/moonlight-stream/moonlight-embedded.git /opt/moonlight-embedded \
+&& cd /opt/moonlight-embedded && git submodule update --init --recursive
 RUN mkdir /opt/moonlight-embedded/build
 WORKDIR /opt/moonlight-embedded/build
 RUN cmake ..
