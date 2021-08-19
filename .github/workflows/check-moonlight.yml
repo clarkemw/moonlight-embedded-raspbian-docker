@@ -1,9 +1,9 @@
 name: Check if moonlight-embedded has a new release and update Dockerfile
 on:
   schedule:
-    - cron:  '0 19 * * *'
+    - cron:  '0 0 * * *'
 jobs:
-  updateMoonlight:
+  update_moonlight:
     runs-on: ubuntu-latest
     steps:
       - 
@@ -26,7 +26,8 @@ jobs:
         run: |
           sed -i "s|--tag v[0-9\.]+|--tag ${{ steps.moonlight-version.outputs.release }}|g" Dockerfile
           echo '${{ steps.moonlight-version.outputs.release }}' > .moonlight_version
-      - name: Create Pull 
+      - 
+        name: Create PR
         uses: peter-evans/create-pull-request@v3
         with:
           commit-message: Update moonlight-embedded docker image to ${{ steps.moonlight-version.outputs.release }}
