@@ -41,5 +41,4 @@ jobs:
           context: .
           platforms: linux/arm/v7
           push: true
-          repository: clarkemw/moonlight-embedded-raspbian
-          tags: latest, ${{ steps.moonlight-version.outputs.release }}
+          tags: clarkemw/moonlight-embedded-raspbian:latest, clarkemw/moonlight-embedded-raspbian:${{ steps.moonlight-version.outputs.release }}
