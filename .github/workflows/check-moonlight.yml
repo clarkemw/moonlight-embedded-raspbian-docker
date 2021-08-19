@@ -1,7 +1,7 @@
 name: Check if moonlight-embedded has a new release and update Dockerfile
 on:
   schedule:
-    - cron:  '0 0 * * *'
+    - cron: '0 22 * * *'
 jobs:
   update_moonlight:
     runs-on: ubuntu-latest
