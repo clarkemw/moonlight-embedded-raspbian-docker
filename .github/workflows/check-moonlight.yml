@@ -1,0 +1,34 @@
+name: Check if moonlight-embedded has a new release and update Dockerfile
+on:
+  schedule:
+    - cron:  '0 0 * * *'
+jobs:
+  updateMoonlight:
+    runs-on: ubuntu-latest
+    steps:
+      - 
+        name: Checkout
+        uses: actions/checkout@v2
+      - 
+        name: Get latest moonlight-embedded version
+        id: moonlight-version
+        uses: pozetroninc/github-action-get-latest-release@master
+        with:
+          repository: moonlight-stream/moonlight-embedded
+      -
+        name: Get lastest version Docker image was built with
+        id: current-version
+        run: |
+            echo ::set-output name=current::$(<.moonlight_version) 
+      - 
+        name: Update Dockerfile
+        if: steps.moonlight-version.outputs.release != steps.current-version.outputs.current
+        run: |
+          sed -i "s|--tag v[0-9\.]+|--tag ${{ steps.moonlight-version.outputs.release }}|g" Dockerfile
+          echo '${{ steps.moonlight-version.outputs.release }}' > .moonlight_version
+      - name: Create Pull 
+        uses: peter-evans/create-pull-request@v3
+        with:
+          commit-message: Update moonlight-embedded docker image to ${{ steps.moonlight-version.outputs.release }}
+          title: Update moonlight-embedded to ${{ steps.moonlight-version.outputs.release }}
+          labels: automated pr

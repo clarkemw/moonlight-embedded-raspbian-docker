@@ -16,6 +16,12 @@ jobs:
       -
         name: Checkout
         uses: actions/checkout@v2
+      - 
+        name: Get current moonlight-embedded version number
+        id: moonlight-version
+        uses: pozetroninc/github-action-get-latest-release@master
+        with:
+          repository: moonlight-stream/moonlight-embedded       
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -35,4 +41,5 @@ jobs:
           context: .
           platforms: linux/arm/v7
           push: true
-          tags: clarkemw/moonlight-embedded-raspbian:latest
+          repository: clarkemw/moonlight-embedded-raspbian
+          tags: latest, ${{ steps.moonlight-version.outputs.release }}
