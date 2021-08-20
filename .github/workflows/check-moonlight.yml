@@ -6,28 +6,23 @@ jobs:
   update_moonlight:
     runs-on: ubuntu-latest
     steps:
-      - 
-        name: Checkout
+      - name: Checkout
         uses: actions/checkout@v2
-      - 
-        name: Get latest moonlight-embedded version
+      - name: Get latest moonlight-embedded version
         id: moonlight-version
         uses: pozetroninc/github-action-get-latest-release@master
         with:
           repository: moonlight-stream/moonlight-embedded
-      -
-        name: Get lastest version Docker image was built with
+      - name: Get latest version Docker image was built with
         id: current-version
         run: |
             echo ::set-output name=current::$(<.moonlight_version) 
-      - 
-        name: Update Dockerfile
+      - name: Update Dockerfile
         if: steps.moonlight-version.outputs.release != steps.current-version.outputs.current
         run: |
           sed -i "s|--tag v[0-9\.]+|--tag ${{ steps.moonlight-version.outputs.release }}|g" Dockerfile
           echo '${{ steps.moonlight-version.outputs.release }}' > .moonlight_version
-      - 
-        name: Create PR
+      - name: Create PR
         uses: peter-evans/create-pull-request@v3
         with:
           commit-message: Update moonlight-embedded docker image to ${{ steps.moonlight-version.outputs.release }}
