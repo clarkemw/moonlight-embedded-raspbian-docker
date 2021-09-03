@@ -4,5 +4,5 @@ Builds are automated using Github actions. A PR for new builds is triggered when
 moonlight-embedded creates a new release.
 
 Dockerhub: https://hub.docker.com/repository/docker/clarkemw/moonlight-embedded-raspbian  
-Used by: https://github.com/clarkemw/moonlight-embedded-launcher  
+Used by: https://github.com/clarkemw/script.moonlight-embedded-launcher
 Moonlight-embedded source: https://github.com/moonlight-stream/moonlight-embedded  
