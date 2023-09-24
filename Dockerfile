@@ -4,7 +4,7 @@
 #	docker build --tag moonlight-embedded .
 #
 
-FROM raspbian/stretch
+FROM balenalib/raspberry-pi-debian
 
 RUN sudo apt-get update
 
@@ -18,7 +18,7 @@ RUN sudo apt-get install -y git \
 	libavahi-client-dev libcurl4-openssl-dev \
 	libevdev-dev libexpat1-dev \
 	libpulse-dev uuid-dev \
-	cmake gcc g++
+	cmake gcc g++ build-essential
 
 # Raspbian only
 RUN sudo apt-get install -y libraspberrypi-dev
