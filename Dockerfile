@@ -6,10 +6,10 @@
 
 FROM lpenz/raspbian-bookworm-armhf
 
-RUN sudo apt-get update
+RUN apt-get update
 
 # Install necessary packages for compiling
-RUN sudo apt-get install -y git \
+RUN apt-get install -y git \
 	libopus0 libexpat1 libasound2 \
 	libudev1 libavahi-client3 \ 
 	libevdev2  \ 
@@ -21,7 +21,7 @@ RUN sudo apt-get install -y git \
 	cmake gcc g++ build-essential
 
 # Raspbian only
-RUN sudo apt-get install -y libraspberrypi-dev
+RUN apt-get install -y libraspberrypi-dev
 
 # Clone the project and build.
 RUN git clone --depth 1 --branch v2.6.0 https://github.com/moonlight-stream/moonlight-embedded.git /opt/moonlight-embedded \
@@ -30,7 +30,7 @@ RUN mkdir /opt/moonlight-embedded/build
 WORKDIR /opt/moonlight-embedded/build
 RUN cmake ..
 RUN make
-RUN sudo make install
+RUN make install
 RUN ldconfig
 
 # Create directory for saved data
