@@ -4,7 +4,7 @@
 #	docker build --tag moonlight-embedded .
 #
 
-FROM balenalib/raspberry-pi-debian
+FROM lpenz/raspbian-bookworm-armh
 
 RUN sudo apt-get update
 
