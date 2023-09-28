@@ -4,7 +4,7 @@
 #	docker build --tag moonlight-embedded .
 #
 
-FROM lpenz/raspbian-bookworm-armh
+FROM lpenz/raspbian-bookworm-armhf
 
 RUN sudo apt-get update
 
