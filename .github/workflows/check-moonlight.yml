@@ -20,7 +20,7 @@ jobs:
       - name: Update Dockerfile
         if: steps.moonlight-version.outputs.release != steps.current-version.outputs.current
         run: |
-          sed -i "s|--branch v[0-9\.]+|--branch ${{ steps.moonlight-version.outputs.release }}|g" Dockerfile
+          sed -ir "s|--branch v[0-9\.]+|--branch ${{ steps.moonlight-version.outputs.release }}|g" Dockerfile
           echo '${{ steps.moonlight-version.outputs.release }}' > .moonlight_version
       - name: Create PR
         uses: peter-evans/create-pull-request@v3
