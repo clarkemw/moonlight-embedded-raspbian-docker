@@ -24,7 +24,7 @@ RUN apt-get install -y git \
 RUN apt-get install -y libraspberrypi-dev
 
 # Clone the project and build.
-RUN git clone --depth 1 --branch v2.6.1 https://github.com/moonlight-stream/moonlight-embedded.git /opt/moonlight-embedded \
+RUN git clone --depth 1 --branch v2.6.2 https://github.com/moonlight-stream/moonlight-embedded.git /opt/moonlight-embedded \
 && cd /opt/moonlight-embedded && git submodule update --init --recursive
 RUN mkdir /opt/moonlight-embedded/build
 WORKDIR /opt/moonlight-embedded/build
